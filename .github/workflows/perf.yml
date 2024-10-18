@@ -21,4 +21,4 @@ jobs:
         run: |
 
           sudo apt-get install fio -y;
-          fio --name=write_throughput --directory=/tmp/ --numjobs=8 --size=10G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 --verify=0 --bs=1M --iodepth=64 --rw=write --group_reporting=1
+          fio --name=write_throughput --directory=/tmp/ --numjobs=8 --size=1G --time_based --runtime=60s --ramp_time=2s --ioengine=libaio --direct=1 --verify=0 --bs=1M --iodepth=64 --rw=write --group_reporting=1
