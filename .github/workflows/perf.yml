@@ -11,9 +11,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04-ppc64le, ubuntu-latest]
+        os: [ubuntu-latest]
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Install and Run Tests
         run: |
 
