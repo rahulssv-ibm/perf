@@ -1,0 +1,26 @@
+name: Network Tests
+
+# Only run on branches (e.g. not tags)
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  fio:
+    name: Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-22.04-ppc64le]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Install and Run Tests
+        run: |
+
+          sudo apt-get update -y;  sudo apt install speedtest-cli -y;
+          speedtest
+
+          time curl -o file.zip http://212.183.159.230/1GB.zip
