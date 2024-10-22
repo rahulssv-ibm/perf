@@ -21,6 +21,7 @@ jobs:
         run: |
 
           sudo apt-get update -y;  sudo apt install speedtest-cli -y;
-          speedtest
-
           time curl -o file.zip http://212.183.159.230/1GB.zip
+          speedtest --secure
+
+          
