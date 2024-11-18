@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, self-hosted, ubuntu-22.04-ppc64le]
+        os: [ubuntu-latest, self-hosted]
 
     steps:
       - name: Checkout code
