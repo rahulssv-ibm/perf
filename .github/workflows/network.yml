@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, self-hosted]
+        os: [ubuntu-latest, ubuntu-22.04-lxd-selfhosted-osu, ubuntu-22.04-ppc64le]
 
     steps:
       - name: Checkout code
@@ -19,6 +19,5 @@ jobs:
         
       - name: Install and Run Tests
         run: |
-
          # sudo apt update -y;  sudo apt install speedtest-cli -y;
           time curl -o file.zip http://212.183.159.230/1GB.zip
