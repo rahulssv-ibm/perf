@@ -17,8 +17,8 @@ jobs:
         
       - name: Download Tests from speedtest.tele2.net
         run: |
-          time curl -o file.zip http://speedtest.tele2.net/1GB.zi
+          time curl -o file1.zip http://speedtest.tele2.net/1GB.zip
 
       - name: Download Tests from 212.183.159.230
         run: |
-          time curl -o file.zip http://212.183.159.230/1GB.zip
+          time curl -o file2.zip http://212.183.159.230/1GB.zip
