@@ -14,11 +14,11 @@ jobs:
         os: [ubuntu-latest, ubuntu-22.04-osu-selfhosted, ubuntu-22.04-ppc64le]
 
     steps:
-        
+      - name: Download Tests from 212.183.159.230
+        run: |
+          time curl -o file_2.zip http://212.183.159.230/1GB.zip        
       - name: Download Tests from speedtest.tele2.net
         run: |
           time curl -o file_1.zip http://speedtest.tele2.net/1GB.zip
 
-      - name: Download Tests from 212.183.159.230
-        run: |
-          time curl -o file_2.zip http://212.183.159.230/1GB.zip
+
