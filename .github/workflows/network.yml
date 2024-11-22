@@ -11,7 +11,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, ubuntu-22.04-osu-selfhosted, ubuntu-22.04-ppc64le]
+        os: [ubuntu-latest, ubuntu-22.04-powervs-selfhosted, ubuntu-22.04-ppc64le]
 
     steps:
       - name: Download Tests from 212.183.159.230
