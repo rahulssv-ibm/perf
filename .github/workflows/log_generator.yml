@@ -23,5 +23,5 @@ jobs:
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
           echo "Using Runner Owner: ${{ matrix.runner_owner }}..."
-          strace -e trace=network,open,read,write time yes "example line log" | head -n 10000
+          strace -e trace=network,open,read,write time yes "example line log" | head -n 100000
           echo "Log generation complete for ${{ matrix.os }}."
