@@ -12,7 +12,7 @@ jobs:
         include:
           - os: ubuntu-22.04
             runner_owner: "github-hosted"
-          - os: ubuntu-22.04-osu-selfhosted
+          - os: ubuntu-22.04-powervs-selfhosted
             runner_owner: "actions-runner-ppc64le"
 
     steps:
@@ -23,5 +23,5 @@ jobs:
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
           echo "Using Runner Owner: ${{ matrix.runner_owner }}..."
-          time yes "example line log" | head -n 1000000
+          strace -e trace=network,open,read,write time yes "example line log" | head -n 10000
           echo "Log generation complete for ${{ matrix.os }}."
