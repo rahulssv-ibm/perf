@@ -22,3 +22,4 @@ jobs:
           cd /home/runner/runners/2.321.0
           ls -a
           ls -ltr
+          cat .setup_info
