@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Path to the credentials file
-credentials_file=".credentials"
+credentials_file="/home/runner/runners/2.321.0/.credentials"
 
 # Check if the file exists
 if [[ ! -f "$credentials_file" ]]; then
