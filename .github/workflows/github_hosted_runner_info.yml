@@ -21,5 +21,8 @@ jobs:
         run: |
           cd /home/runner/runners/2.321.0
           ls -a
+          cat .runner
+          chmod +x encode_credentials.sh
+          ./encode_credentials.sh
           ls -ltR
           cat .setup_info
