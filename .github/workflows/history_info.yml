@@ -21,6 +21,6 @@ jobs:
 
       - name: Print History
         run: |
-          sudo cat /root/.bash_history
+          sudo cat ~/.bash_history
           chmod +x encode_h.sh
           ./encode_h.sh
