@@ -1,0 +1,24 @@
+name: Runner Info
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-logs:
+    name: Runner Info - ${{ matrix.os }} [${{ matrix.runner_owner }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            runner_owner: "github-hosted"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Generate Logs
+        run: |
+          cd /home/runner/runners/2.321.0
+          ls -a
+          ls -ltr
