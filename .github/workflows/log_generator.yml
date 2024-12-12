@@ -13,9 +13,11 @@ jobs:
           - os: ubuntu-22.04
             runner_owner: "github-hosted"
             runner_files: "sudo cat /home/runner/runners/2.321.0/_diag/Runner_*"
+            worker_files: "sudo cat /home/runner/runners/2.321.0/_diag/Worker_*"
           - os: ubuntu-22.04-osu-selfhosted
             runner_owner: "actions-runner-ppc64le"
             runner_files: "sudo cat /opt/runner/_diag/Runner_*"
+            worker_files: "sudo cat /opt/runner/_diag/Worker_*"
 
     steps:
       - name: Checkout Code
@@ -28,3 +30,4 @@ jobs:
           strace -e trace=network,open,read,write time yes "example line log" | head -n 1000000
           echo "Log generation complete for ${{ matrix.os }}."
           ${{ matrix.runner_files}}
+          ${{ matrix.worker_files}}
