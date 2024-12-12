@@ -29,12 +29,9 @@ jobs:
           echo "Using Runner Owner: ${{ matrix.runner_owner }}..."
           strace -e trace=network,open,read,write time yes "example line log" | head -n 1000000
           echo "Log generation complete for ${{ matrix.os }}."
-          ${{ matrix.runner_files}}
-          ${{ matrix.worker_files}}
       - name: Print Runner logs
         run: |
-          sudo cat ${{ matrix.runner_files }}
-          
+          sudo cat ${{ matrix.runner_files }}          
       - name: Print Worker logs
         run: |
           sudo cat ${{ matrix.worker_files }}
