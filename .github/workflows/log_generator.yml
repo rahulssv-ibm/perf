@@ -33,8 +33,8 @@ jobs:
           ${{ matrix.worker_files}}
       - name: Print Runner logs
         run: |
-          sudo cat ${{ matrix.runner_files}}
+          sudo cat ${{ matrix.runner_files }}
           
       - name: Print Worker logs
         run: |
-          sudo cat ${{ matrix.worker_files}}
+          sudo cat ${{ matrix.worker_files }}
