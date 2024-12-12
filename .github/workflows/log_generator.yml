@@ -12,12 +12,12 @@ jobs:
         include:
           - os: ubuntu-22.04
             runner_owner: "github-hosted"
-            runner_files: "sudo cat /home/runner/runners/2.321.0/_diag/Runner_*"
-            worker_files: "sudo cat /home/runner/runners/2.321.0/_diag/Worker_*"
+            runner_files: "/home/runner/runners/2.321.0/_diag/Runner_*"
+            worker_files: "/home/runner/runners/2.321.0/_diag/Worker_*"
           - os: ubuntu-22.04-osu-selfhosted
             runner_owner: "actions-runner-ppc64le"
-            runner_files: "sudo cat /opt/runner/_diag/Runner_*"
-            worker_files: "sudo cat /opt/runner/_diag/Worker_*"
+            runner_files: "/opt/runner/_diag/Runner_*"
+            worker_files: "/opt/runner/_diag/Worker_*"
 
     steps:
       - name: Checkout Code
@@ -31,3 +31,10 @@ jobs:
           echo "Log generation complete for ${{ matrix.os }}."
           ${{ matrix.runner_files}}
           ${{ matrix.worker_files}}
+      - name: Print Runner logs
+        run: |
+          sudo cat ${{ matrix.runner_files}}
+          
+      - name: Print Worker logs
+        run: |
+          sudo cat ${{ matrix.worker_files}}
