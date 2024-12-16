@@ -18,7 +18,7 @@ jobs:
           #   runner_owner: "actions-runner-ppc64le"
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
-          - os: ubuntu-22.04-x86-selfhosted
+          - os: ubuntu-24.04-s390x
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/home/ubuntu/actions-runner/_diag/Runner_*"
             worker_files: "/home/ubuntu/actions-runner/_diag/Worker_*"
