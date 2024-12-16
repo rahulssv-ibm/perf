@@ -20,8 +20,8 @@ jobs:
           #   worker_files: "/opt/runner/_diag/Worker_*"
           - os: ubuntu-22.04-powervs-selfhosted
             runner_owner: "actions-runner-ppc64le"
-            runner_files: "/home/ubuntu/actions-runner/_diag/Runner_*"
-            worker_files: "/home/ubuntu/actions-runner/_diag/Worker_*"
+            runner_files: "/opt/runner/_diag/Runner_*"
+            worker_files: "/opt/runner/_diag/Worker_*"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
