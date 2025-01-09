@@ -10,14 +10,14 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             runner_owner: "github-hosted"
             runner_files: "/home/runner/runners/2.321.0/_diag/Runner_*"
             worker_files: "/home/runner/runners/2.321.0/_diag/Worker_*"
-          # - os: ubuntu-22.04-osu-selfhosted
-          #   runner_owner: "actions-runner-ppc64le"
-          #   runner_files: "/opt/runner/_diag/Runner_*"
-          #   worker_files: "/opt/runner/_diag/Worker_*"
+          - os: ubuntu-24.04-s390x
+            runner_owner: "actions-runner-s390x"
+            runner_files: "/opt/runner/_diag/Runner_*"
+            worker_files: "/opt/runner/_diag/Worker_*"
           - os: ubuntu-24.04-ppc64le
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
