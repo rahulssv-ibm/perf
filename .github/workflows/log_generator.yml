@@ -22,7 +22,11 @@ jobs:
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
             worker_files: "/opt/runner/_diag/Worker_*"
-          - os: ubuntu-24.04-ppc64le-osu
+          - os: ubuntu-24.04-ppc64le-osu1
+            runner_owner: "actions-runner-ppc64le"
+            runner_files: "/opt/runner/_diag/Runner_*"
+            worker_files: "/opt/runner/_diag/Worker_*"
+          - os: ubuntu-24.04-ppc64le-osu2
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
             worker_files: "/opt/runner/_diag/Worker_*"
