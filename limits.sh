@@ -77,6 +77,11 @@ echo "Total number of open file descriptors (using lsof):"
 lsof | wc -l
 
 echo ""
+echo "10. Get PAGESIZE"
+echo "------------------------------------"
+echo "Page Size:"
+getconf PAGESIZE
+echo ""
 echo "==========================="
 echo "End of System Limits Report"
 echo "==========================="
