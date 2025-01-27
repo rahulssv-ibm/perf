@@ -1,11 +1,11 @@
-name: Log Generator Workflow
+name: uLimits
 
 on:
   workflow_dispatch:
 
 jobs:
   generate-logs:
-    name: Generate Logs - ${{ matrix.os }} [${{ matrix.runner_owner }}]
+    name: uLimits - ${{ matrix.os }} [${{ matrix.runner_owner }}]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
