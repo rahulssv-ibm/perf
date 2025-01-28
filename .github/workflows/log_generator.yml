@@ -26,7 +26,7 @@ jobs:
           #   runner_owner: "actions-runner-ppc64le"
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
-          - os: ubuntu-24.04-powervs-selfhosted
+          - os: ubuntu-24.04-x86-selfhosted
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
             worker_files: "/opt/runner/_diag/Worker_*"
