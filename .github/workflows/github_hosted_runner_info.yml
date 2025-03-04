@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             runner_owner: "github-hosted"
 
     steps:
@@ -19,10 +19,13 @@ jobs:
 
       - name: Generate Logs
         run: |
-          chmod +x encode_credentials.sh
-          ./encode_credentials.sh
-          cd /home/runner/runners/2.321.0
-          ls -a
-          cat .runner
-          ls -a -ltR
-          cat .setup_info
+          # chmod +x encode_credentials.sh
+          # ./encode_credentials.sh
+          # cd /home/runner/runners/2.321.0
+          # ls -a
+          # cat .runner
+          # ls -a -ltR
+          # cat .setup_info
+          df -h
+          lsblk
+          free -h
