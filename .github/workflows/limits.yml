@@ -26,14 +26,18 @@ jobs:
           #   runner_owner: "actions-runner-ppc64le"
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
-          - os: ubuntu-24.04-powervs-selfhosted
-            runner_owner: "actions-runner-ppc64le"
-            runner_files: "/opt/runner/_diag/Runner_*"
-            worker_files: "/opt/runner/_diag/Worker_*"
+          # - os: ubuntu-24.04-powervs-selfhosted
+          #   runner_owner: "actions-runner-ppc64le"
+          #   runner_files: "/opt/runner/_diag/Runner_*"
+          #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+      - name: check versions
+        run: |
+          which python
+          python --version
+          java --version
       - name: Generate Logs
         run: |
           chmod +x limits.sh
