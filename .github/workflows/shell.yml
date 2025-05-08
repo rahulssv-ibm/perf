@@ -23,13 +23,13 @@ jobs:
         groups
         echo "mounts"
         mount | column -t
-        dmesg | grep -i hypervisor
         sudo su - 
         cat /etc/hosts
         ip a
         ip r
         curl ifconfig.me
         curl -I https://nicehash.com || echo "Blocked or failed"
+        sudo dmesg | grep -i hypervisor
         
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v3
@@ -57,10 +57,10 @@ jobs:
         groups
         echo "mounts"
         mount | column -t
-        dmesg | grep -i hypervisor
         sudo su - 
         cat /etc/hosts
         ip a
         ip r
         curl ifconfig.me
         curl -I https://nicehash.com || echo "Blocked or failed"
+        sudo dmesg | grep -i hypervisor
