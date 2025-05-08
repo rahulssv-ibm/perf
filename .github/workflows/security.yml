@@ -2,7 +2,6 @@ name: Self-Hosted Runner Security Audit
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   security-audit:
@@ -32,8 +31,8 @@ jobs:
         
         echo "\n=== Network Security ==="
         ip link show
-        iptables -L -n -v
-        ss -tuln
+        # iptables -L -n -v
+        # ss -tuln
         
         echo "\n=== Vulnerability Scanning ==="
         sudo apt-get update && sudo apt-get install -y lynis
