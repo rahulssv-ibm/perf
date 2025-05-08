@@ -7,7 +7,7 @@ on:
 jobs:
   security-audit:
     name: LXD Container Security Check
-    runs-on: [ubuntu-24.0-ppc64le, ubuntu-24.0-ppc64le]
+    runs-on: [ubuntu-latest, ubuntu-24.0-ppc64le]
     
     steps:
     - name: Checkout code
