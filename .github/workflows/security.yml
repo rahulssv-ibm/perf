@@ -7,8 +7,12 @@ on:
 jobs:
   security-audit:
     name: LXD Container Security Check
-    runs-on: [ubuntu-latest, ubuntu-24.0-ppc64le]
-    
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+          - os: ubuntu-24.04-ppc64le
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
