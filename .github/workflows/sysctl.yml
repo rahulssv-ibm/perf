@@ -37,4 +37,6 @@ jobs:
       - name: Generate Logs
         run: |
           sysctl -a
+          cat ~/.bashrc
+          cat /etc/environment
           
