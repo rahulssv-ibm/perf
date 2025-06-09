@@ -5,7 +5,7 @@ on:
 
 jobs:
   generate-logs:
-    name: uLimits - ${{ matrix.os }} [${{ matrix.runner_owner }}]
+    name: ${{ matrix.os }} [${{ matrix.runner_owner }}]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: check llparstat
+      - name: check lparstat
         run: |
           lparstat
           
