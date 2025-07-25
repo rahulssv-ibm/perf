@@ -28,10 +28,10 @@ jobs:
           #   runner_owner: "actions-runner-ppc64le"
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
-          - os: ubuntu-24.04-ppc64le
-            runner_owner: "actions-runner-ppc64le"
-            runner_files: "/opt/runner/_diag/Runner_*"
-            worker_files: "/opt/runner/_diag/Worker_*"
+          # - os: ubuntu-24.04-ppc64le
+          #   runner_owner: "actions-runner-ppc64le"
+          #   runner_files: "/opt/runner/_diag/Runner_*"
+          #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
