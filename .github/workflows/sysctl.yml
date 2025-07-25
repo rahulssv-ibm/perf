@@ -2,6 +2,8 @@ name: Sysctl
 
 on:
   workflow_dispatch:
+    inputs:
+        dispatch_id:
 
 jobs:
   generate-logs:
