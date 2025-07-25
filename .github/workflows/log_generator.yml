@@ -50,7 +50,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Generate Logs
+      - name: Generate Log
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
           echo "Using Runner Owner: ${{ matrix.runner_owner }}..."
