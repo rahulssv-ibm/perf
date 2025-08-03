@@ -41,4 +41,5 @@ jobs:
           sysctl -a
           cat ~/.bashrc
           cat /etc/environment
+          exit 1
           
