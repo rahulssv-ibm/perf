@@ -47,11 +47,6 @@ jobs:
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Generate Logs
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
