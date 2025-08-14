@@ -47,11 +47,11 @@ jobs:
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
-      - name: Checkout Code
+      - name: Setup node
         uses: actions/setup-node@v4
         with:
           architecture: ppc64le
-          node-version: 20
+          node-version: 24
 
       - name: Generate Logs
         run: |
