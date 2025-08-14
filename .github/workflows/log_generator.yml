@@ -48,13 +48,16 @@ jobs:
           #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/setup-node@v4
+        with:
+          architecture: ppc64le
+          node-version: 20
 
       - name: Generate Logs
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
           echo "Using Runner Owner: ${{ matrix.runner_owner }}..."
-          strace -e trace=network,open,read,write time yes "example line log" | head -n 1000000
+          strace -e trace=network,open,read,write time yes "example line log" | head -n 10
           echo "Log generation complete for ${{ matrix.os }}."
       - name: Print Runner logs
         run: |
