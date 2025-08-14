@@ -50,7 +50,6 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          architecture: ppc64le
           node-version: 24
 
       - name: Generate Logs
