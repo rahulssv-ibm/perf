@@ -47,6 +47,9 @@ jobs:
           #   runner_files: "/opt/runner/_diag/Runner_*"
           #   worker_files: "/opt/runner/_diag/Worker_*"
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        
       - name: Generate Logs
         run: |
           echo "Generating large logs on ${{ matrix.os }}..."
