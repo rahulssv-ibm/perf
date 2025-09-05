@@ -1,0 +1,26 @@
+name: Runner Info
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-logs:
+    name: Runner Info - ${{ matrix.os }} [${{ matrix.runner_owner }}]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            runner_owner: "github-hosted"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'semeru'
+          java-version: '${{ matrix.version }}'
+          cache: maven
+          architecture: ppc64le
