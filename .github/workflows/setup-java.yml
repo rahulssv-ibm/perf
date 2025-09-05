@@ -1,4 +1,4 @@
-name: Runner Info
+name: Setup-java
 
 on:
   workflow_dispatch:
