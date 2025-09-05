@@ -9,9 +9,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        include:
-          - os: ubuntu-24.04-ppc64le
-            runner_owner: "ppc64le-hosted"
+          os: 
+            - ubuntu-24.04-ppc64le
+          runner_owner: 
+            - "ppc64le-hosted"
+          version: [11, 17, 21]
 
     steps:
       - name: Checkout Code
