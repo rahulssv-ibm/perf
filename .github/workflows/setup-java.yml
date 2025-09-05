@@ -24,5 +24,4 @@ jobs:
         with:
           distribution: 'semeru'
           java-version: '${{ matrix.version }}'
-          cache: maven
           architecture: ppc64le
