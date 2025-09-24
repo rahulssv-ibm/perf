@@ -5,7 +5,7 @@
 set -e
 
 # Source dot env file.
-source .env
+# source .env
 
 # Arguments.
 version=""
