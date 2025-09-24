@@ -12,6 +12,10 @@ version=""
 platform=""
 alternate_repository=""
 dry_run=""
+DOCKER_REGISTRY="rahulssv"
+DOCKERFILE="build/Dockerfile"
+DOCKER_BUILD_CONTEXT="."
+
 
 while [[ $# -gt 0 ]]; do
   case $1 in
