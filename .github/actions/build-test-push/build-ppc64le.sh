@@ -9,8 +9,8 @@ source .env
 
 # Arguments.
 version=""
-platform="linux/ppc64le"
-alternate_repository="snapshot"
+platform=""
+alternate_repository=""
 dry_run=""
 
 while [[ $# -gt 0 ]]; do
