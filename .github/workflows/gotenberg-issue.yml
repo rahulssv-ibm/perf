@@ -11,10 +11,12 @@ jobs:
       matrix:
         include:
           - os: ubuntu-24.04-ppc64le
+            arch: "ppc64le"
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
             worker_files: "/opt/runner/_diag/Worker_*"
           - os: ubuntu-24.04-s390x
+            arch: "s390x"
             runner_owner: "actions-runner-ppc64le"
             runner_files: "/opt/runner/_diag/Runner_*"
             worker_files: "/opt/runner/_diag/Worker_*"
@@ -28,6 +30,6 @@ jobs:
         with:
           docker_hub_username: rahulssv
           docker_hub_password: xxxxxxxx
-          version: pr-${{ github.event.pull_request.number }}
-          platform: linux/ppc64le
+          version: pr-1
+          platform: linux/${{ matrix.arch }} 
           alternate_repository: snapshot
