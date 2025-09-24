@@ -28,8 +28,6 @@ jobs:
         id: build_test_push
         uses: ./.github/actions/build-test-push
         with:
-          docker_hub_username: rahulssv
-          docker_hub_password: xxxxxxxx
           version: pr-1
           platform: linux/${{ matrix.arch }} 
           alternate_repository: snapshot
