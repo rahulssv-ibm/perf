@@ -37,6 +37,22 @@ jobs:
         run: | 
           echo $HOME
 
-      - name: Docker Test
+      - name: Print Environment
         run: | 
-          docker ps
+          cat /etc/environment
+          
+      - name: Print Info 
+        run: | 
+          id runner
+          getent group
+          whoami                    
+          id 
+          getent passwd "$(whoami)" 
+          groups "$(whoami)" 
+          getent group | grep "$(whoami)"
+          sudo -l         
+          
+      # - name: Docker Test
+      #   run: | 
+          
+      #     docker ps
