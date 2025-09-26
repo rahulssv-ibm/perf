@@ -36,3 +36,7 @@ jobs:
       - name: Print HOME var
         run: | 
           echo $HOME
+
+      - name: Docker Test
+        run: | 
+          docker ps
