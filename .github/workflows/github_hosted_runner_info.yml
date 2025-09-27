@@ -58,7 +58,7 @@ jobs:
 
       - name: Check dotnet PATH 
         run: | 
-          echo $DOTNET_ROOT | true
+          echo $DOTNET_ROOT
 
       # - name: Docker Test
       #   run: | 
