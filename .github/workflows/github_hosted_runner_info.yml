@@ -50,7 +50,11 @@ jobs:
           getent passwd "$(whoami)" 
           groups "$(whoami)" 
           getent group | grep "$(whoami)"
-          sudo -l         
+          sudo -l        
+
+      - name: Check docker 
+        run: | 
+          docker ps
           
       # - name: Docker Test
       #   run: | 
