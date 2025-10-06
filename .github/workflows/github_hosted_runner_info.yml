@@ -21,15 +21,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Check git  
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead 0
+          git config --global init.defaultBranch garbage
+          
+      - name: Check env
+        run: |
+          env
+        
       - name: Generate Logs
         run: |
-          # chmod +x encode_credentials.sh
-          # ./encode_credentials.sh
-          # cd /home/runner/runners/2.321.0
-          # ls -a
-          # cat .runner
-          # ls -a -ltR
-          # cat .setup_info
           df -h
           lsblk
           free -h
@@ -61,8 +65,3 @@ jobs:
       - name: Check dotnet PATH 
         run: | 
           echo $DOTNET_ROOT
-
-      # - name: Docker Test
-      #   run: | 
-          
-      #     docker ps
