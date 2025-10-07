@@ -14,7 +14,7 @@ jobs:
             runner_owner: "github-hosted"
           - os: ubuntu-24.04-ppc64le
             runner_owner: "ppc64le-hosted"
-          - os: ubuntu-24.04-ppc64le-s390x
+          - os: ubuntu-24.04-s390x
             runner_owner: "ppc64le-hosted"
 
     steps:
