@@ -14,8 +14,6 @@ jobs:
             runner_owner: "github-hosted"
           - os: ubuntu-24.04-ppc64le
             runner_owner: "ppc64le-hosted"
-          - os: ubuntu-24.04-s390x
-            runner_owner: "ppc64le-hosted"
 
     steps:
       - name: Checkout Code
@@ -61,6 +59,7 @@ jobs:
       - name: Check docker 
         run: | 
           docker ps
+          lxc ls
 
       - name: Check dotnet PATH 
         run: | 
