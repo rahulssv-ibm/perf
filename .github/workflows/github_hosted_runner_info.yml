@@ -58,7 +58,7 @@ jobs:
 
       - name: Check setup info 
         run: | 
-          cat /opt/runner/.setup_info
+          ls -a /opt/runner
           
       - name: Check docker 
         run: | 
