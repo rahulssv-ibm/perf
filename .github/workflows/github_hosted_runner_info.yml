@@ -56,6 +56,10 @@ jobs:
           getent group | grep "$(whoami)"
           sudo -l        
 
+      - name: Check setup info 
+        run: | 
+          cat /opt/runner/.setup_info
+          
       - name: Check docker 
         run: | 
           docker ps
