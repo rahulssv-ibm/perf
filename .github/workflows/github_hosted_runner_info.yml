@@ -10,10 +10,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04
-            runner_owner: "github-hosted"
-          # - os: ubuntu-24.04-ppc64le
-          #   runner_owner: "ppc64le-hosted"
+          # - os: ubuntu-24.04
+          #   runner_owner: "github-hosted"
+          - os: ubuntu-24.04-ppc64le
+            runner_owner: "ppc64le-hosted"
 
     steps:
       - name: Checkout Code
@@ -56,9 +56,9 @@ jobs:
           getent group | grep "$(whoami)"
           sudo -l        
 
-      - name: Check setup info 
-        run: | 
-          cat /home/runner/actions-runner/cached/.setup_info
+      # - name: Check setup info 
+      #   run: | 
+      #     cat /home/runner/actions-runner/cached/.setup_info
           
       - name: Check docker 
         run: | 
