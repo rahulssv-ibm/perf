@@ -44,6 +44,8 @@ jobs:
       - name: Print Environment
         run: | 
           cat /etc/environment
+          cat /home/runner/.bash_profile
+          cat /home/runner/.profile
           
       - name: Print Info 
         run: | 
