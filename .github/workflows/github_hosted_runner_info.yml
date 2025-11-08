@@ -12,8 +12,8 @@ jobs:
         include:
           - os: ubuntu-24.04
             runner_owner: "github-hosted"
-          - os: ubuntu-24.04-ppc64le
-            runner_owner: "ppc64le-hosted"
+          - os: ubuntu-24.04-s390x
+            runner_owner: "s390x-hosted"
 
     steps:
       - name: Checkout Code
@@ -44,8 +44,6 @@ jobs:
       - name: Print Environment
         run: | 
           cat /etc/environment
-          cat /home/runner/.bash_profile
-          cat /home/runner/.profile
           
       - name: Print Info 
         run: | 
@@ -69,3 +67,8 @@ jobs:
       - name: Check dotnet PATH 
         run: | 
           echo $DOTNET_ROOT
+
+      - name: Check packages
+        run: | 
+          rustup --version
+          ninja --version
