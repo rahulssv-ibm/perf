@@ -32,6 +32,7 @@ jobs:
 
       - name: Check docker config
         run: |
+          sudo cat /etc/docker/daemon.json
           echo "----------------------------------------------------"
           echo "Verifying Docker Configuration (MTU & Ulimits)"
           echo "----------------------------------------------------"
