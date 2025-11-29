@@ -8,6 +8,7 @@ jobs:
     name: Kata Containers - ${{ matrix.os }} [${{ matrix.runner_owner }}]
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: ubuntu-24.04
