@@ -114,7 +114,7 @@ jobs:
         run: | 
           echo $DOTNET_ROOT
 
-      - name: Check packages
-        run: | 
-          rustup --version
-          ninja --version
+      # - name: Check packages
+      #   run: | 
+      #     rustup --version
+      #     ninja --version
