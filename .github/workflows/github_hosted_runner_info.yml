@@ -12,7 +12,7 @@ jobs:
         include:
           - os: ubuntu-24.04
             runner_owner: "github-hosted"
-          - os: uubuntu-24.04-x86_64
+          - os: uubuntu-24.04-ppc64le
             runner_owner: "ppc64le-hosted"
 
     steps:
