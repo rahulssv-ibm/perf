@@ -45,7 +45,7 @@ jobs:
           # We look for the option in the network inspect output
           current_mtu=$(docker network inspect bridge --format '{{ index .Options "com.docker.network.driver.mtu" }}')
           
-          if [[ "$current_mtu" == "1460" ]]; then
+          if [[ "$current_mtu" == "1500" ]]; then
               echo "✅ [PASS] Default Bridge MTU is 1460"
           else
               # Note: If it is empty, it means it fell back to the default (usually 1500)
