@@ -49,7 +49,7 @@ jobs:
               echo "[PASS] Default Bridge MTU is 1460"
           else
               # Note: If it is empty, it means it fell back to the default (usually 1500)
-              echo "[WARN] Default Bridge MTU is '${current_mtu:-1500}' (Expected: 1460)"
+              echo "[WARN] Default Bridge MTU is '${current_mtu:-1500}' (Expected: 1460)" 
           fi
           
           # 2. Verify Ulimits (Fix for rlimit type 7 error)
