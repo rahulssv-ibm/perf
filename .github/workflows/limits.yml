@@ -2,6 +2,18 @@ name: uLimits
 
 on:
   workflow_dispatch:
+    inputs:
+      large-runner:
+        description: "Runner to use"
+        required: true
+        default: "normal"
+        type: choice
+        options:
+          - ubuntu-24.04-ppc64le-2xlarge-p10
+          - ubuntu-24.04-ppc64le-4xlarge-p10
+      pr_number:
+        description: "PR number to build"
+        required: true
 
 jobs:
   generate-logs:
