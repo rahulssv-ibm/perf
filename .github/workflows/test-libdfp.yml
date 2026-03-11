@@ -1,0 +1,27 @@
+
+name: libdfp CI on x86-64
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        node: [ubuntu-latest, ubuntu-24.04-s390x, ubuntu-24.04-ppc64le, ubuntu-22.04-ppc64le]
+
+    runs-on: ${{ matrix.node }}
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Configure libdfp
+      env:
+        GHA_NODE: ${{ matrix.node }}
+      run: |
+        ls -a
