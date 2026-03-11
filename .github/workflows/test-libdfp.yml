@@ -14,7 +14,11 @@ jobs:
   build:
     strategy:
       matrix:
-        node: [ubuntu-latest, ubuntu-24.04-s390x, ubuntu-24.04-ppc64le, ubuntu-22.04-ppc64le]
+        include:
+          - node: ubuntu-latest
+          - node: ubuntu-24.04
+          - node: ubuntu-24.04-ppc64le
+          - node: ubuntu-22.04-ppc64le
 
     runs-on: ${{ matrix.node }}
 
