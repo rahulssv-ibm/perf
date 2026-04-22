@@ -41,6 +41,13 @@ jobs:
           echo "----------------------------------------------------"
           echo "Verifying Docker Configuration (MTU & Ulimits)"
           echo "----------------------------------------------------"
+          # identify the default network adapter on the machine, the next command like check the MTU configuration on this adapter
+          read -r INTERFACE < <(ip route | awk '$1=="default"{print $5; exit}')
+          
+          # if your network uses jumbo frames (MTU 9000), or an MTU smaller than 1500 (as found on Google Cloud VMs), use a matching MTU on lxdbr0 (which is created by lxd init --auto)
+          ip link show $INTERFACE | awk '/mtu/ {print $5}'
+
+          cat /etc/resolv.conf 
           
           # 1. Verify MTU configuration on the default bridge
           # We look for the option in the network inspect output
