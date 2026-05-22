@@ -71,6 +71,15 @@ jobs:
           which kind
           kind version
 
+      - name: Install kubectl for ppc64le
+        run: |
+          KUBECTL_VERSION="v1.29.3"
+          mkdir -p "$HOME/.local/bin"
+          curl -Lo "$HOME/.local/bin/kubectl" \
+            "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/ppc64le/kubectl"
+          chmod +x "$HOME/.local/bin/kubectl"
+          kubectl version --client
+
       - name: Create k8s Kind Cluster
         run: |
           IMAGE_TAG="v1.30.2"
