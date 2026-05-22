@@ -15,6 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # ── Install Go WITHOUT sudo ──
       - name: Install Go for ppc64le
         run: |
           ARCH=$(uname -m)
@@ -23,24 +24,31 @@ jobs:
           TARBALL="go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
           URL="https://go.dev/dl/${TARBALL}"
 
+          # Install into a user-writable directory
+          GOROOT="$HOME/goroot"
+          mkdir -p "$GOROOT"
           echo "Downloading ${URL} ..."
           wget -q "$URL" -O "$TARBALL"
-          sudo tar -xzf "$TARBALL" -C /usr/local
+          tar -xzf "$TARBALL" -C "$GOROOT" --strip-components=1
           rm -f "$TARBALL"
 
-          echo "GOPATH=/usr/local/go" >> $GITHUB_ENV
-          echo "/usr/local/go/bin" >> $GITHUB_PATH
-          /usr/local/go/bin/go version
+          # Persist GOROOT, GOPATH, and PATH
+          echo "GOROOT=$GOROOT" >> $GITHUB_ENV
+          echo "GOPATH=$HOME/go" >> $GITHUB_ENV          # module cache will be here
+          echo "$GOROOT/bin" >> $GITHUB_PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH       # for kind binary
 
-      # ── Fixed step ──
+          # Verify
+          "$GOROOT/bin/go" version
+
+      # ── Build kind (no sudo needed) ──
       - name: Build and install kind
         run: |
-          # If KIND_VERSION file exists, use it; otherwise use a default
+          # KIND_VERSION file is optional
           if [ -f KIND_VERSION ]; then
             KIND_BRANCH=$(cat KIND_VERSION)
           else
             echo "⚠️  KIND_VERSION file not found. Falling back to v0.31.0"
-            echo "   (Add a KIND_VERSION file to your repo to pin a specific version.)"
             KIND_BRANCH="v0.31.0"
           fi
 
@@ -51,8 +59,10 @@ jobs:
           wget -q "$PATCH_URL" -O ../build-ppc64le.patch
           git apply ../build-ppc64le.patch
 
-          make install
+          # Install kind into ~/.local/bin (user‑writable)
+          make install prefix="$HOME/.local"
 
+          # Confirm
           which kind
           kind version
 
