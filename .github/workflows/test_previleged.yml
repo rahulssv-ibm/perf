@@ -1,7 +1,7 @@
-name: Kubernetes Kind Workflow
+name: Kubernetes Kind Workflow (ppc64le)
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   test-k8s-deployment:
@@ -9,39 +9,66 @@ jobs:
       fail-fast: false
       matrix:
         runner: [ubuntu-24.04-ppc64le, ubuntu-24.04-ppc64le-vm]
-    
     runs-on: ${{ matrix.runner }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up Go to compile Kind natively for ppc64le
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.22'
-
-      - name: Install kind (via Go) and kubectl locally
+      # 1. Install Go exactly as your documentation specifies
+      - name: Install Go for ppc64le
         run: |
-          # 1. Compile kind from source natively
-          go install sigs.k8s.io/kind@v0.22.0
-          # Add the Go bin directory to the runner's path
-          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
-          
-          # 2. Download the pre-compiled kubectl (which DOES exist for ppc64le)
-          mkdir -p $HOME/.local/bin
-          curl -Lo $HOME/.local/bin/kubectl https://dl.k8s.io/release/v1.29.3/bin/linux/ppc64le/kubectl
-          chmod +x $HOME/.local/bin/kubectl
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          ARCH=$(uname -m)
+          OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+          GO_VERSION="1.24.0"
+          TARBALL="go${GO_VERSION}.${OS}-${ARCH}.tar.gz"
+          URL="https://go.dev/dl/${TARBALL}"
 
+          echo "Downloading ${URL} ..."
+          wget -q "$URL" -O "$TARBALL"
+
+          # sudo is required to write to /usr/local
+          sudo tar -xzf "$TARBALL" -C /usr/local
+          rm -f "$TARBALL"
+
+          # Persist GOPATH and PATH for the rest of the job
+          echo "GOPATH=/usr/local/go" >> $GITHUB_ENV
+          echo "/usr/local/go/bin" >> $GITHUB_PATH
+
+          # Verify installation
+          /usr/local/go/bin/go version
+
+      # 2. Clone the specific version of kind, apply the patch, and install
+      - name: Build and install kind
+        run: |
+          # Read the desired branch/tag from the KIND_VERSION file in your repo
+          KIND_BRANCH=$(cat KIND_VERSION)
+          git clone -b "$KIND_BRANCH" https://github.com/kubernetes-sigs/kind
+          cd kind
+
+          # Download the ppc64le patch directly from the upstream source
+          PATCH_URL="https://raw.githubusercontent.com/ppc64le-cloud/kind-image/main/build-ppc64le.patch"
+          wget -q "$PATCH_URL" -O ../build-ppc64le.patch
+          git apply ../build-ppc64le.patch
+
+          # Build and install the kind binary
+          make install
+
+          # Confirm the binary is available
+          which kind
+          kind version
+
+      # 3. Create a kind cluster using your custom ppc64le node image
       - name: Create k8s Kind Cluster
         run: |
+          # You can parameterize the image tag however you like
+          IMAGE_TAG="v1.30.2"
           kind create cluster \
             --name test-cluster \
-            --image quay.io/powercloud/kind-node:v1.30.2 \
+            --image quay.io/powercloud/kind-node:${IMAGE_TAG} \
             --wait 120s
 
+      # 4. Verify the cluster is operational
       - name: Verify Cluster Info
         run: |
           kubectl cluster-info
