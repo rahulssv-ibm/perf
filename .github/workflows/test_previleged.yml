@@ -39,9 +39,9 @@ jobs:
           if [ -f KIND_VERSION ]; then
             KIND_BRANCH=$(cat KIND_VERSION)
           else
-            echo "⚠️  KIND_VERSION file not found. Falling back to v0.22.0"
+            echo "⚠️  KIND_VERSION file not found. Falling back to v0.31.0"
             echo "   (Add a KIND_VERSION file to your repo to pin a specific version.)"
-            KIND_BRANCH="v0.22.0"
+            KIND_BRANCH="v0.31.0"
           fi
 
           git clone -b "$KIND_BRANCH" https://github.com/kubernetes-sigs/kind
