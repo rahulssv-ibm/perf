@@ -1,0 +1,37 @@
+name: Kubernetes Kind Workflow
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  test-k8s-deployment:
+    strategy:
+      fail-fast: false # Prevents one failing runner from cancelling the other
+      matrix:
+        runner: [ubuntu-24.04-ppc64le, ubuntu-24.04-ppc64le-vm]
+    
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Updated to v4 (v6 does not exist)
+
+      # Creates a fresh Kubernetes cluster using Docker in Docker
+      - name: Create k8s Kind Cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: test-cluster
+          wait: 120s # Waits for the control plane to become ready
+
+      - name: Verify Cluster Info
+        run: |
+          kubectl cluster-info
+          kubectl get nodes -o wide
+
+      # Example of how to use the cluster once it is running
+      - name: Test Example Deployment
+        run: |
+          kubectl create deployment nginx-test --image=nginx
+          # Wait for the pod to be ready before proceeding
+          kubectl wait --for=condition=available --timeout=90s deployment/nginx-test
+          kubectl get pods
