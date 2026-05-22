@@ -59,8 +59,13 @@ jobs:
           wget -q "$PATCH_URL" -O ../build-ppc64le.patch
           git apply ../build-ppc64le.patch
 
-          # Install kind into ~/.local/bin (user‑writable)
-          make install prefix="$HOME/.local"
+          # Build only (the binary will be at bin/kind inside the 'kind' directory)
+          make kind
+
+          # Manually install to ~/.local/bin (which is on PATH)
+          mkdir -p "$HOME/.local/bin"
+          cp bin/kind "$HOME/.local/bin/kind"
+          chmod +x "$HOME/.local/bin/kind"
 
           # Confirm
           which kind
