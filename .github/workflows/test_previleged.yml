@@ -15,7 +15,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Install Go exactly as your documentation specifies
       - name: Install Go for ppc64le
         run: |
           ARCH=$(uname -m)
@@ -26,49 +25,45 @@ jobs:
 
           echo "Downloading ${URL} ..."
           wget -q "$URL" -O "$TARBALL"
-
-          # sudo is required to write to /usr/local
           sudo tar -xzf "$TARBALL" -C /usr/local
           rm -f "$TARBALL"
 
-          # Persist GOPATH and PATH for the rest of the job
           echo "GOPATH=/usr/local/go" >> $GITHUB_ENV
           echo "/usr/local/go/bin" >> $GITHUB_PATH
-
-          # Verify installation
           /usr/local/go/bin/go version
 
-      # 2. Clone the specific version of kind, apply the patch, and install
+      # ── Fixed step ──
       - name: Build and install kind
         run: |
-          # Read the desired branch/tag from the KIND_VERSION file in your repo
-          KIND_BRANCH=$(cat KIND_VERSION)
+          # If KIND_VERSION file exists, use it; otherwise use a default
+          if [ -f KIND_VERSION ]; then
+            KIND_BRANCH=$(cat KIND_VERSION)
+          else
+            echo "⚠️  KIND_VERSION file not found. Falling back to v0.22.0"
+            echo "   (Add a KIND_VERSION file to your repo to pin a specific version.)"
+            KIND_BRANCH="v0.22.0"
+          fi
+
           git clone -b "$KIND_BRANCH" https://github.com/kubernetes-sigs/kind
           cd kind
 
-          # Download the ppc64le patch directly from the upstream source
           PATCH_URL="https://raw.githubusercontent.com/ppc64le-cloud/kind-image/main/build-ppc64le.patch"
           wget -q "$PATCH_URL" -O ../build-ppc64le.patch
           git apply ../build-ppc64le.patch
 
-          # Build and install the kind binary
           make install
 
-          # Confirm the binary is available
           which kind
           kind version
 
-      # 3. Create a kind cluster using your custom ppc64le node image
       - name: Create k8s Kind Cluster
         run: |
-          # You can parameterize the image tag however you like
           IMAGE_TAG="v1.30.2"
           kind create cluster \
             --name test-cluster \
             --image quay.io/powercloud/kind-node:${IMAGE_TAG} \
             --wait 120s
 
-      # 4. Verify the cluster is operational
       - name: Verify Cluster Info
         run: |
           kubectl cluster-info
