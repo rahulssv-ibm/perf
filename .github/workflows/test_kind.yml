@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-24.04-ppc64le
+          - os: ubuntu-24.04-ppc64le-vm
             runner_owner: "ppc64le-hosted"
 
     steps:
