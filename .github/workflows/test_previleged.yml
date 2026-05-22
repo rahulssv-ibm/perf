@@ -6,7 +6,7 @@ on:
 jobs:
   test-k8s-deployment:
     strategy:
-      fail-fast: false # Prevents one failing runner from cancelling the other
+      fail-fast: false
       matrix:
         runner: [ubuntu-24.04-ppc64le, ubuntu-24.04-ppc64le-vm]
     
@@ -14,26 +14,36 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6 # Updated to v4 (v6 does not exist)
+        uses: actions/checkout@v4
 
-      # Creates a fresh Kubernetes cluster using Docker in Docker
+      ## Manually fetch the ppc64le binaries instead of relying on the action
+      - name: Install kind and kubectl for ppc64le
+        run: |
+          # Download and install kind (v0.22.0)
+          curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.22.0/kind-linux-ppc64le
+          chmod +x ./kind
+          sudo mv ./kind /usr/local/bin/kind
+          
+          # Download and install kubectl (v1.29.3)
+          curl -LO https://dl.k8s.io/release/v1.29.3/bin/linux/ppc64le/kubectl
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+
+      ## Run the exact command the action was attempting to run
       - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.10.0
-        with:
-          cluster_name: test-cluster
-          wait: 120s # Waits for the control plane to become ready
-          # Specify the IBM Power Cloud community node image
-          node_image: quay.io/powercloud/kind-node:v1.30.2
+        run: |
+          kind create cluster \
+            --name test-cluster \
+            --image quay.io/powercloud/kind-node:v1.30.2 \
+            --wait 120s
 
       - name: Verify Cluster Info
         run: |
           kubectl cluster-info
           kubectl get nodes -o wide
 
-      # Example of how to use the cluster once it is running
       - name: Test Example Deployment
         run: |
           kubectl create deployment nginx-test --image=nginx
-          # Wait for the pod to be ready before proceeding
           kubectl wait --for=condition=available --timeout=90s deployment/nginx-test
           kubectl get pods
