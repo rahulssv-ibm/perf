@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Updated to v4 (v6 does not exist)
+        uses: actions/checkout@v6 # Updated to v4 (v6 does not exist)
 
       # Creates a fresh Kubernetes cluster using Docker in Docker
       - name: Create k8s Kind Cluster
@@ -22,6 +22,8 @@ jobs:
         with:
           cluster_name: test-cluster
           wait: 120s # Waits for the control plane to become ready
+          # Specify the IBM Power Cloud community node image
+          node_image: quay.io/powercloud/kind-node:v1.30.2
 
       - name: Verify Cluster Info
         run: |
