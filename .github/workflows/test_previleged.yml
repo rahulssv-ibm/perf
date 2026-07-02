@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runner: [ubuntu-kata-test]
+        runner: [ubuntu-kata-test, ubuntu-24.04-ppc64le-vm]
     runs-on: ${{ matrix.runner }}
 
     steps:
