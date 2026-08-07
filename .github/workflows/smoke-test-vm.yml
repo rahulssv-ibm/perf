@@ -68,10 +68,17 @@ jobs:
       - name: Device ioctl
         run: |
           python3 -c "
-          import fcntl, os, struct
+          import fcntl, os, struct, platform
+
+          # RNDGETENTCNT is _IOR('R', 0x00, int) — encoding differs by arch
+          arch = platform.machine()
+          if arch in ('ppc64le', 'ppc64', 'ppc'):
+              RNDGETENTCNT = 0x40045200
+          else:
+              RNDGETENTCNT = 0x80045200
+
           fd = os.open('/dev/random', os.O_RDONLY)
-          # RNDGETENTCNT = 0x80045200
-          buf = fcntl.ioctl(fd, 0x80045200, b'\x00' * 4)
+          buf = fcntl.ioctl(fd, RNDGETENTCNT, b'\x00' * 4)
           entropy = struct.unpack('I', buf)[0]
           print(f'Entropy available: {entropy}')
           os.close(fd)
