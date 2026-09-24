@@ -157,48 +157,105 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p summary
-          echo "test_id,configured_concurrency,hostname,start_time_utc,end_time_utc,duration_sec,status" > summary/results.csv
 
+          mkdir -p summary
+
+          HEADER="test_id,configured_concurrency,hostname,start_time_utc,end_time_utc,duration_sec,status"
+          echo "$HEADER" > summary/results.csv
+
+          # Merge CSV files while removing the header from EVERY file.
           find raw -name '*.csv' -type f -print0 |
-            xargs -0 -r cat |
-            awk 'NR > 1' |
+            while IFS= read -r -d '' file; do
+              tail -n +2 "$file"
+            done |
             sort -t, -k1,1n >> summary/results.csv
 
+          echo "=== Combined results ==="
+          cat summary/results.csv
+
           python3 - <<'PY'
-          import csv, statistics
+          import csv
+          import statistics
           from pathlib import Path
 
-          rows = list(csv.DictReader(open("summary/results.csv")))
-          durations = [float(r["duration_sec"]) for r in rows]
-          ok = sum(r["status"] == "success" for r in rows)
+          results_file = Path("summary/results.csv")
+
+          with results_file.open(newline="") as f:
+              rows = list(csv.DictReader(f))
+
+          # Ignore malformed/incomplete rows rather than failing the whole run.
+          valid_rows = []
+          for row in rows:
+              try:
+                  duration = float(row["duration_sec"])
+                  valid_rows.append((row, duration))
+              except (KeyError, TypeError, ValueError):
+                  print(f"WARNING: Ignoring malformed row: {row}")
+
+          durations = [duration for _, duration in valid_rows]
+
+          successful = sum(
+              row.get("status") == "success"
+              for row, _ in valid_rows
+          )
+
+          failed = len(valid_rows) - successful
 
           def percentile(values, q):
+              if not values:
+                  return 0.0
+
               values = sorted(values)
+
               if len(values) == 1:
                   return values[0]
-              p = (len(values) - 1) * q
-              lo, hi = int(p), min(int(p) + 1, len(values) - 1)
-              return values[lo] + (values[hi] - values[lo]) * (p - lo)
 
-          c = rows[0]["configured_concurrency"] if rows else "unknown"
+              position = (len(values) - 1) * q
+              lower = int(position)
+              upper = min(lower + 1, len(values) - 1)
+              fraction = position - lower
+
+              return (
+                  values[lower]
+                  + (values[upper] - values[lower]) * fraction
+              )
+
+          concurrency = (
+              valid_rows[0][0]["configured_concurrency"]
+              if valid_rows
+              else "unknown"
+          )
+
           report = [
-              "# Concurrency benchmark",
+              "# Kubernetes Kind Concurrency Benchmark",
               "",
-              f"Configured concurrency: **{c}**",
-              f"Jobs observed: **{len(rows)}**",
-              f"Successful jobs: **{ok}**",
-              f"Failed jobs: **{len(rows) - ok}**",
+              f"Configured concurrency: **{concurrency}**",
+              f"Jobs with valid results: **{len(valid_rows)}**",
+              f"Successful jobs: **{successful}**",
+              f"Failed jobs: **{failed}**",
               "",
               "| Metric | Value |",
               "|---|---:|",
-              f"| Min | {min(durations):.1f}s |",
-              f"| Average | {statistics.mean(durations):.1f}s |",
-              f"| P50 | {statistics.median(durations):.1f}s |",
-              f"| P95 | {percentile(durations, 0.95):.1f}s |",
-              f"| Max | {max(durations):.1f}s |",
           ]
-          Path("summary/summary.md").write_text("\n".join(report) + "\n")
+
+          if durations:
+              report.extend([
+                  f"| Min duration | {min(durations):.1f}s |",
+                  f"| Average duration | {statistics.mean(durations):.1f}s |",
+                  f"| P50 duration | {statistics.median(durations):.1f}s |",
+                  f"| P95 duration | {percentile(durations, 0.95):.1f}s |",
+                  f"| Max duration | {max(durations):.1f}s |",
+              ])
+          else:
+              report.append("| Duration | No valid results |")
+
+          Path("summary/summary.md").write_text(
+              "\n".join(report) + "\n"
+          )
+
+          print("")
+          print("=== Summary ===")
+          print(Path("summary/summary.md").read_text())
           PY
 
       - name: Upload aggregate
