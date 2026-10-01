@@ -63,7 +63,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git clone -b v0.32.0 https://github.com/kubernetes-sigs/kind
+          git clone -b v0.33.0 https://github.com/kubernetes-sigs/kind
           cd kind
           wget -q             "https://raw.githubusercontent.com/ppc64le-cloud/kind-image/main/build-ppc64le.patch"             -O ../build-ppc64le.patch
           git apply ../build-ppc64le.patch
